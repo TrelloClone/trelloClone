@@ -1,9 +1,13 @@
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
+import Workspace from './components/Workspace';
+import Board from './components/Board';
+import MiniDrawer from './components/MiniDrawer'
 import {me} from './store'
+
+import Box from '@mui/material/Box';
 
 /**
  * COMPONENT
@@ -17,11 +21,23 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <div>
+      // <div>
+      <Box
+        sx={{
+          // display: "grid",
+          
+          boxSizing: "border-box",
+          backgroundColor: "yellow",
+          gridArea: "content",
+          
+        }}
+      >
+
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
-            <Redirect to="/home" />
+            <Route path="/workspace" component={Workspace} />
+            <Route path="/board/:boardId" component={Board} />
+            <Redirect to="/workspace" />
           </Switch>
         ) : (
           <Switch>
@@ -30,7 +46,8 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
           </Switch>
         )}
-      </div>
+      </Box>
+      // </div>
     )
   }
 }

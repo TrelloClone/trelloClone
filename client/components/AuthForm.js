@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {authenticate} from '../store'
 
+import Box from '@mui/material/Box';
+
 /**
  * COMPONENT
  */
@@ -9,7 +11,9 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
+    
+    <div className="auth-form">
+      <h2>AuthForm</h2>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="username">
@@ -23,12 +27,24 @@ const AuthForm = props => {
           </label>
           <input name="password" type="password" />
         </div>
+        {
+          name === 'signup' ? 
+          <div>
+          <label htmlFor="email">
+            <small>Email</small>
+          </label>
+          <input name="email" type="email" />
+        </div> : null
+        }
+        
         <div>
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
+    
     </div>
+  
   )
 }
 
@@ -62,7 +78,13 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const username = evt.target.username.value
       const password = evt.target.password.value
-      dispatch(authenticate(username, password, formName))
+
+      let email = '';
+      if(evt.target.email) {
+        email = evt.target.email.value;
+      }
+      
+      dispatch(authenticate(username, password, email, formName))
     }
   }
 }
